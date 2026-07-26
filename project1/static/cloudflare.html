@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Just a moment...</title>
+</head>
+<body class="bg-white m-0 p-0 h-screen w-screen flex items-center justify-center cursor-pointer">
+  <div class="flex items-center w-[300px] h-[76px] bg-[#fafafa] border border-gray-300 shadow-sm rounded-md px-4 select-none hover:bg-gray-50 transition-colors">
+    <!-- Checkbox square -->
+    <div id="check-box" class="w-7 h-7 border-[2px] border-gray-400 rounded-sm bg-white mr-4 flex-shrink-0 transition-all duration-300 flex items-center justify-center">
+    </div>
+    
+    <div class="text-[14px] font-medium text-gray-700 flex-grow" style="font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">Verify you are human</div>
+    
+    <div class="flex flex-col items-center justify-center flex-shrink-0 ml-2">
+      <svg class="w-7 h-7 text-orange-500 mb-[2px]" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
+      </svg>
+      <span class="text-[10px] text-gray-500 font-semibold tracking-wide">Privacy - Terms</span>
+    </div>
+  </div>
+
+  <script>
+    document.body.addEventListener('click', function() {
+        const checkBox = document.getElementById('check-box');
+        
+        // Make it look like it was checked
+        checkBox.style.borderColor = '#10B981';
+        checkBox.style.backgroundColor = '#10B981';
+        checkBox.innerHTML = '<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>';
+        
+        // Wait half a second, then redirect to the Rick Roll
+        setTimeout(() => {
+            window.location.href = '/rick-roll';
+        }, 600);
+    });
+  </script>
+</body>
+</html>

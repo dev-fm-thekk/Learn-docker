@@ -1,24 +1,9 @@
 ![](assets/docker-logo.png)
-# What is Docker
-
-## Installation
-
-For windows: [windows](docs/install/windows.md)
-
-For Mac OS: [Mac](docs/install/linux.md)
-
-For linux(Ubuntu): [Ubuntu](docs/install/linux.md)
-
-Verify docker cli
-
-```bash
-docker --version
-```
 
 # Docker CLI Cheat Sheet
 
 ## Images
-
+===
 | Command | Description |
 |---|---|
 | `docker pull <image>:<tag>` | Download an image from a registry |
