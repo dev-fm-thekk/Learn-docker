@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You've been verified! ✅</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: url('/static/rickroll-roll.gif') center center / cover no-repeat fixed;
+        }
+
+        /* Dark overlay on top of the GIF background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            z-index: -1;
+        }
+
+        .reveal-text {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #ff4444, #ff8800, #ffcc00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #888;
+            margin-bottom: 32px;
+            animation: slideDown 0.6s ease-out 0.15s both;
+        }
+
+        .video-container {
+            width: 90%;
+            max-width: 720px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow:
+                0 0 40px rgba(255, 68, 68, 0.2),
+                0 8px 32px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            animation: scaleIn 0.5s ease-out 0.3s both;
+            background: #111;
+        }
+
+        .video-container video,
+        .video-container img {
+            width: 100%;
+            display: block;
+        }
+
+        /* Placeholder message if no asset yet */
+        .placeholder {
+            padding: 80px 20px;
+            text-align: center;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .placeholder .emoji {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Confetti burst animation */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            animation: confettiFall linear forwards;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+    </style>
+</head>
+<body>
+   <audio id="bgMusic" src="/static/music.MP3" loop preload="auto"></audio>
+
+   <div class="">
+
+   </div>
+
+   <script>
+       // Browsers block autoplay with sound, so we start muted then unmute on first interaction
+       const music = document.getElementById('bgMusic');
+       music.volume = 1;
+
+       // Try playing immediately (works if browser allows it)
+       const playPromise = music.play();
+       if (playPromise !== undefined) {
+           playPromise.catch(() => {
+               // Autoplay blocked — play on first user interaction
+               const unlock = () => {
+                   music.play();
+                   document.removeEventListener('click', unlock);
+                   document.removeEventListener('keydown', unlock);
+                   document.removeEventListener('touchstart', unlock);
+               };
+               document.addEventListener('click', unlock);
+               document.addEventListener('keydown', unlock);
+               document.addEventListener('touchstart', unlock);
+           });
+       }
+   </script>
+</body>
+</html>
