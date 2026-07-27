@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just a moment...</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 480px;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .cf-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 32px 28px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .cf-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .cf-logo-icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        .cf-logo-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: #404040;
+            letter-spacing: -0.5px;
+        }
+
+        .cf-logo-text span {
+            color: #f6821f;
+        }
+
+        .cf-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Checkbox widget area */
+        .cf-widget {
+            display: flex;
+            align-items: center;
+            background: #fafafa;
+            border: 1px solid #d5d5d5;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 24px;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+            user-select: none;
+        }
+
+        .cf-widget:hover {
+            border-color: #f6821f;
+            box-shadow: 0 0 0 3px rgba(246, 130, 31, 0.12);
+            background: #fff;
+        }
+
+        .cf-widget:active {
+            transform: scale(0.995);
+        }
+
+        .cf-checkbox {
+            width: 28px;
+            height: 28px;
+            border: 2px solid #c0c0c0;
+            border-radius: 6px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            background: #fff;
+        }
+
+        .cf-checkbox.checked {
+            background: #f6821f;
+            border-color: #f6821f;
+        }
+
+        .cf-checkbox svg {
+            width: 16px;
+            height: 16px;
+            stroke: #fff;
+            stroke-width: 3;
+            fill: none;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.25s ease;
+        }
+
+        .cf-checkbox.checked svg {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .cf-widget-label {
+            font-size: 15px;
+            font-weight: 500;
+            color: #444;
+            margin-left: 14px;
+        }
+
+        .cf-widget-badge {
+            margin-left: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .cf-widget-badge-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .cf-widget-badge-text {
+            font-size: 9px;
+            color: #999;
+            font-weight: 500;
+        }
+
+        /* Spinner for the "verifying" state */
+        .cf-spinner {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #e5e5e5;
+            border-top: 3px solid #f6821f;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .cf-footer {
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+        }
+
+        .cf-footer a {
+            color: #888;
+            text-decoration: none;
+        }
+
+        .cf-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Subtle page background pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 30%, rgba(246, 130, 31, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(246, 130, 31, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cf-card">
+            <!-- Cloudflare-style logo -->
+            <div class="cf-logo">
+                <svg class="cf-logo-icon" viewBox="0 0 65 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M45.5 30.8c-.5-5-4.8-8.8-9.9-8.8-4 0-7.4 2.3-9 5.6-.8-.4-1.7-.6-2.6-.6-3.3 0-6 2.7-6 6 0 .3 0 .6.1.9C15.2 34.6 13 37.2 13 40.3c0 3.5 2.8 6.2 6.2 6.2h25.6c2.8 0 5-2.2 5-5s-2.3-5-5-5h-.3c.3-.7.5-1.4.5-2.2 0-1.7-.8-3.2-2-4.2l.5.7z" fill="#f6821f"/>
+                    <path d="M44.8 41.5h-1.2l.4-1.5c.1-.4 0-.8-.3-1.1-.3-.3-.6-.4-1-.4H27.5c-.1 0-.2-.1-.2-.1 0-.1 0-.1.1-.2.6-.6 1.4-1 2.3-1.1h.2l.3-.5c1.2-2.8 4-4.6 7-4.6 3.4 0 6.4 2.3 7.3 5.5l.3 1h.9c2 .1 3.5 1.5 3.5 3.4 0 .8-.3 1.5-.8 2.1-.4-.5-1.1-.8-1.8-.8h-1.8z" fill="#fff" opacity=".6"/>
+                </svg>
+                <span class="cf-logo-text">Cloud<span>flare</span></span>
+            </div>
+
+            <h1 class="cf-title">Verify you are human</h1>
+
+            <!-- Click target -->
+            <div class="cf-widget" id="verifyWidget" onclick="handleVerify()">
+                <div class="cf-checkbox" id="checkbox">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="4 12 10 18 20 6"></polyline>
+                    </svg>
+                </div>
+                <div class="cf-spinner" id="spinner"></div>
+                <span class="cf-widget-label" id="widgetLabel">I am human</span>
+                <div class="cf-widget-badge">
+                    <svg class="cf-widget-badge-icon" viewBox="0 0 65 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M45.5 30.8c-.5-5-4.8-8.8-9.9-8.8-4 0-7.4 2.3-9 5.6-.8-.4-1.7-.6-2.6-.6-3.3 0-6 2.7-6 6 0 .3 0 .6.1.9C15.2 34.6 13 37.2 13 40.3c0 3.5 2.8 6.2 6.2 6.2h25.6c2.8 0 5-2.2 5-5s-2.3-5-5-5h-.3c.3-.7.5-1.4.5-2.2 0-1.7-.8-3.2-2-4.2l.5.7z" fill="#f6821f"/>
+                    </svg>
+                    <span class="cf-widget-badge-text">Cloudflare</span>
+                </div>
+            </div>
+
+            <p class="cf-footer">
+                <a href="#">Privacy</a> · <a href="#">Terms</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let clicked = false;
+
+        function handleVerify() {
+            if (clicked) return;
+            clicked = true;
+
+            const checkbox = document.getElementById('checkbox');
+            const spinner = document.getElementById('spinner');
+            const label = document.getElementById('widgetLabel');
+            const widget = document.getElementById('verifyWidget');
+
+            // Hide checkbox, show spinner
+            checkbox.style.display = 'none';
+            spinner.style.display = 'block';
+            label.textContent = 'Verifying...';
+
+            // After 1.5s, show the checkmark
+            setTimeout(() => {
+                spinner.style.display = 'none';
+                checkbox.style.display = 'flex';
+                checkbox.classList.add('checked');
+                label.textContent = 'Verified!';
+                widget.style.borderColor = '#4caf50';
+                widget.style.cursor = 'default';
+
+                // Redirect after another 1s
+                setTimeout(() => {
+                    window.location.href = '/verified';
+                }, 1000);
+            }, 1800);
+        }
+    </script>
+</body>
+</html>
