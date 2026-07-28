@@ -1,15 +1,15 @@
 import { Router } from 'express';
-import prisma from '../lib/prisma.js';
+import { db } from '../db/index.js';
+import { todos } from '../db/schema.js';
+import { eq, desc } from 'drizzle-orm';
 
 const todoRouter = Router();
 
 // GET /todo — List all todos
 todoRouter.get('/', async (req, res) => {
   try {
-    const todos = await prisma.todo.findMany({
-      orderBy: { createdAt: 'desc' },
-    });
-    res.json(todos);
+    const allTodos = await db.select().from(todos).orderBy(desc(todos.createdAt));
+    res.json(allTodos);
   } catch (error) {
     console.error('Error fetching todos:', error);
     res.status(500).json({ error: 'Failed to fetch todos' });
@@ -19,9 +19,7 @@ todoRouter.get('/', async (req, res) => {
 // GET /todo/:id — Get a single todo
 todoRouter.get('/:id', async (req, res) => {
   try {
-    const todo = await prisma.todo.findUnique({
-      where: { id: parseInt(req.params.id) },
-    });
+    const [todo] = await db.select().from(todos).where(eq(todos.id, parseInt(req.params.id)));
     if (!todo) {
       return res.status(404).json({ error: 'Todo not found' });
     }
@@ -39,9 +37,7 @@ todoRouter.post('/', async (req, res) => {
     if (!title) {
       return res.status(400).json({ error: 'Title is required' });
     }
-    const todo = await prisma.todo.create({
-      data: { title, description },
-    });
+    const [todo] = await db.insert(todos).values({ title, description }).returning();
     res.status(201).json(todo);
   } catch (error) {
     console.error('Error creating todo:', error);
@@ -53,19 +49,21 @@ todoRouter.post('/', async (req, res) => {
 todoRouter.patch('/:id', async (req, res) => {
   try {
     const { title, description, completed } = req.body;
-    const todo = await prisma.todo.update({
-      where: { id: parseInt(req.params.id) },
-      data: {
-        ...(title !== undefined && { title }),
-        ...(description !== undefined && { description }),
-        ...(completed !== undefined && { completed }),
-      },
-    });
-    res.json(todo);
-  } catch (error) {
-    if (error.code === 'P2025') {
+    const updateData = { updatedAt: new Date() };
+    if (title !== undefined) updateData.title = title;
+    if (description !== undefined) updateData.description = description;
+    if (completed !== undefined) updateData.completed = completed;
+
+    const [todo] = await db.update(todos)
+      .set(updateData)
+      .where(eq(todos.id, parseInt(req.params.id)))
+      .returning();
+      
+    if (!todo) {
       return res.status(404).json({ error: 'Todo not found' });
     }
+    res.json(todo);
+  } catch (error) {
     console.error('Error updating todo:', error);
     res.status(500).json({ error: 'Failed to update todo' });
   }
@@ -74,14 +72,12 @@ todoRouter.patch('/:id', async (req, res) => {
 // DELETE /todo/:id — Delete a todo
 todoRouter.delete('/:id', async (req, res) => {
   try {
-    await prisma.todo.delete({
-      where: { id: parseInt(req.params.id) },
-    });
-    res.status(204).send();
-  } catch (error) {
-    if (error.code === 'P2025') {
+    const [deletedTodo] = await db.delete(todos).where(eq(todos.id, parseInt(req.params.id))).returning();
+    if (!deletedTodo) {
       return res.status(404).json({ error: 'Todo not found' });
     }
+    res.status(204).send();
+  } catch (error) {
     console.error('Error deleting todo:', error);
     res.status(500).json({ error: 'Failed to delete todo' });
   }
